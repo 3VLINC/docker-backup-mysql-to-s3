@@ -12,15 +12,15 @@ volumes:
   database:
 services:
   app:
-    image: 'codevelopinteractive/docker-backup-mysql-to-s3'
+    image: 'threevl/mysql-s3-backup-restore'
     build:
       context: '.'
       dockerfile: 'Dockerfile'
     secrets:
       - awsKey
       - awsSecret
-      - mysqlRootPass
       - mysqlPass
+      - mysqlRootPass
     # volumes:
       # - ./run.sh:/run.sh
       # - ./restore.sh:/restore.sh
@@ -31,9 +31,9 @@ services:
       MYSQL_PASSWORD_FILE: '/run/secrets/mysqlRootPass'
       S3_ACCESS_KEY_ID_FILE: '/run/secrets/awsKey'
       S3_SECRET_ACCESS_KEY_FILE: '/run/secrets/awsSecret'
-      S3_BUCKET: "canvet-aws-backups"
+      S3_BUCKET: "canvet-backups"
       S3_PREFIX: 'database-backup'
-      CRON_SCHEDULE: '* 1 * * *'
+      SCHEDULE: "0 * * * * *"
     depends_on:
       - database
   database:
