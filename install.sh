@@ -3,18 +3,16 @@
 # exit if a command fails
 set -e
 
-# update apk
-apk update
 
-# install dependency managers
-apk add python py-pip
+apk update
 
 # install mysqldump
 apk add mysql-client bash
 
-# install aws cli
+# install s3 tools
+apk add python py-pip
 pip install awscli
+apk del py-pip
 
 # cleanup
-apk del py-pip
 rm -rf /var/cache/apk/*
